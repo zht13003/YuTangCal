@@ -1,4 +1,4 @@
-from YTCgui import init
+from YTCgui import *
 
 
 if __name__ == '__main__':

@@ -1,3 +1,4 @@
+import traceback
 from tkinter import *
 from tkinter import ttk
 import tkinter
@@ -6,12 +7,7 @@ import YTC
 
 
 def init():
-    def getFromFile():
-        try:
-            result = YTC.getPlayersFromFile(role.get())
-        except Exception as e:
-            tkinter.messagebox.askokcancel(title='错误', message=e.args)
-            return
+    def showResult(result):
         for j in range(4):
             redName[j]['text'] = result[0][j].name
             blueName[j]['text'] = result[1][j].name
@@ -22,22 +18,22 @@ def init():
             redHighScore['text'] = str(result[4])
             blueHighScore['text'] = str(result[5])
 
+    def getFromFile():
+        try:
+            result = YTC.getPlayersFromFile(role.get())
+        except Exception as e:
+            tkinter.messagebox.askokcancel(title='错误', message=e.args)
+            return
+        showResult(result)
+
     def getFromMplink():
         try:
             mplink = getData2.get()
             result = YTC.getPlayersFromMplink(mplink, role.get())
         except Exception as e:
-            tkinter.messagebox.askokcancel(title='错误', message=e.args)
+            tkinter.messagebox.askokcancel(title='错误', message=e)
             return
-        for j in range(4):
-            redName[j]['text'] = result[0][j].name
-            blueName[j]['text'] = result[1][j].name
-            redScore[j]['text'] = result[0][j].score
-            blueScore[j]['text'] = result[1][j].score
-            redTotalScore['text'] = str(result[2])
-            blueTotalScore['text'] = str(result[3])
-            redHighScore['text'] = str(result[4])
-            blueHighScore['text'] = str(result[5])
+        showResult(result)
 
     root = Tk()
 

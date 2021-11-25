@@ -1,6 +1,7 @@
+import os
+import sys
 from typing import List
 import requests
-import socket
 from bs4 import BeautifulSoup
 import json
 from player import player
@@ -81,6 +82,7 @@ def getPlayersFromFile(rule: str) -> List:
     score = open('YTC.txt', encoding='utf-8').readlines()
     if score[0] == '\n':
         score.pop(0)
+
     redTeam = []
     blueTeam = []
 
@@ -119,8 +121,12 @@ def getPlayersFromFile(rule: str) -> List:
 def getPlayersFromMplink(mplink: str, rule: str) -> List:
     # 73526660
     url = "https://osu.ppy.sh/community/matches/" + mplink
-    soup = BeautifulSoup(requests.get(url).content, features="html.parser")
 
+    # solved by
+    # https://stackoverflow.com/questions/27726815/requests-exceptions-sslerror-errno-2-no-such-file-or-directory
+    soup = BeautifulSoup(requests.get(url, verify='cacert.pem').content, features="html.parser")
+
+    # For test
     # soup = BeautifulSoup(open('1.html', encoding='utf-8'), features="html.parser")
 
     data = json.loads(soup.find(id='json-events').string)
@@ -135,7 +141,8 @@ def getPlayersFromMplink(mplink: str, rule: str) -> List:
 
     playerIdToName = {}
     playerList = []
-    with open("players.txt") as f:
+
+    with open("players.txt", encoding='utf-8') as f:
         playerLists = f.readlines()
         for i in playerLists:
             temp = i.replace('\n', '').split(',')

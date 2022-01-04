@@ -1,5 +1,5 @@
 
-Sustain
+MyAngelMiku
 连击
 725
 准确率
@@ -14,7 +14,7 @@ Sustain
 0
 Miss
 1
-Shizaki Kanon
+- Flandre -
 连击
 656
 准确率
@@ -29,7 +29,7 @@ Shizaki Kanon
 4
 Miss
 5
-Old K
+[PLA]
 连击
 466
 准确率
@@ -44,7 +44,7 @@ Old K
 5
 Miss
 1
-Sin_smile
+Michka
 连击
 394
 准确率
@@ -59,7 +59,7 @@ Sin_smile
 7
 Miss
 5
-Hakumo Shiro
+_Shield
 连击
 296
 准确率
@@ -74,7 +74,7 @@ Hakumo Shiro
 4
 Miss
 6
-Another Flower
+Kaname Madoka
 连击
 293
 准确率
@@ -89,7 +89,7 @@ Another Flower
 10
 Miss
 8
-A Maker
+TuRou
 连击
 221
 准确率
@@ -104,7 +104,7 @@ A Maker
 18
 Miss
 10
-Gyro Zeppeli
+Moutreak
 连击
 232
 准确率

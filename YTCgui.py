@@ -29,7 +29,7 @@ def init():
     def getFromMplink():
         try:
             mplink = getData2.get()
-            result = YTC.getPlayersFromMplink(mplink, role.get())
+            result = YTC.getPlayersFromMplink(mplink, role.get(), useProxy.get())
         except Exception as e:
             tkinter.messagebox.askokcancel(title='错误', message=e)
             return
@@ -44,6 +44,10 @@ def init():
     getData2.grid(row=0, column=1)
     getData3 = Button(root, text='mplink读取', command=getFromMplink)
     getData3.grid(row=0, column=2)
+
+    useProxy = IntVar()
+    check = Checkbutton(text="关闭代理", variable=useProxy)
+    check.grid(row=0, column=3)
 
     Label(root, text='选择计分方式：').grid(row=1, column=0)
     role = ttk.Combobox(root, width=6)

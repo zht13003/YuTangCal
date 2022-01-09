@@ -50,7 +50,7 @@ def ranking(blueTeam: List[player], redTeam: List[player], rule: str) -> List:
     for i in range(4):
         highScoreTeam.append(redTeam[i])
         highScoreTeam.append(blueTeam[i])
-    highScoreTeam.sort(key=lambda play: player.sc, reverse=True)
+    highScoreTeam.sort(key=lambda x: x.sc, reverse=True)
     highScoreRed = highScoreBlue = 0
     for i in range(7):
         if highScoreTeam[i].sc > 2 * highScoreTeam[i + 1].sc:
@@ -118,13 +118,17 @@ def getPlayersFromFile(rule: str) -> List:
     return ranking(blueTeam, redTeam, rule)
 
 
-def getPlayersFromMplink(mplink: str, rule: str) -> List:
+def getPlayersFromMplink(mplink: str, rule: str, use_proxy: int) -> List:
     # 73526660
     url = "https://osu.ppy.sh/community/matches/" + mplink
 
     # solved by
     # https://stackoverflow.com/questions/27726815/requests-exceptions-sslerror-errno-2-no-such-file-or-directory
-    soup = BeautifulSoup(requests.get(url, verify='cacert.pem').content, features="html.parser")
+    if use_proxy == 1:
+        soup = BeautifulSoup(requests.get(url, verify='cacert.pem').content, features="html.parser")
+    else:
+        proxy = {"http": "", "https": ""}
+        soup = BeautifulSoup(requests.get(url, verify='cacert.pem', proxies=proxy).content, features="html.parser")
 
     # For test
     # soup = BeautifulSoup(open('1.html', encoding='utf-8'), features="html.parser")
@@ -194,5 +198,3 @@ def getPlayersFromMplink(mplink: str, rule: str) -> List:
                 blueTeam.append(player(T, i, competitor, sc, acc))
 
     return ranking(blueTeam, redTeam, rule)
-
-

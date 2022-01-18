@@ -23,6 +23,7 @@ def getScore(play: player, rank: int) -> None:
 
 def ranking(blueTeam: List[player], redTeam: List[player], rule: str) -> List:
     redScore = blueScore = 0
+    highScoreRed = highScoreBlue = 0
     if len(redTeam) + len(blueTeam) != 8:
         raise Exception('获取选手信息不足8人，请检查数据文件是否正确。也可能是因为players.txt文件内选手名称与实际名称由于选手改名导致对不上')
     for redPlayer in redTeam:
@@ -34,6 +35,8 @@ def ranking(blueTeam: List[player], redTeam: List[player], rule: str) -> List:
         rankings = blueTeam.index(redPlayer)
         getScore(redPlayer, rankings + 1)
         redScore += redPlayer.score
+        if rule == 'v1' and rankings < 4 and redPlayer.sc > 2 * blueTeam[rankings + 1].sc:
+            highScoreRed += 0.5
         blueTeam.pop(rankings)
     for bluePlayer in blueTeam:
         redTeam.append(bluePlayer)
@@ -44,20 +47,22 @@ def ranking(blueTeam: List[player], redTeam: List[player], rule: str) -> List:
         rankings = redTeam.index(bluePlayer)
         getScore(bluePlayer, rankings + 1)
         blueScore += bluePlayer.score
+        if rule == 'v1' and rankings < 4 and bluePlayer.sc > 2 * redTeam[rankings + 1].sc:
+            highScoreBlue += 0.5
         redTeam.pop(rankings)
 
-    highScoreTeam = []
-    for i in range(4):
-        highScoreTeam.append(redTeam[i])
-        highScoreTeam.append(blueTeam[i])
-    highScoreTeam.sort(key=lambda x: x.sc, reverse=True)
-    highScoreRed = highScoreBlue = 0
-    for i in range(7):
-        if highScoreTeam[i].sc > 2 * highScoreTeam[i + 1].sc:
-            if highScoreTeam[i] in redTeam and highScoreTeam[i + 1] in blueTeam:
-                highScoreRed += 0.5
-            if highScoreTeam[i] in blueTeam and highScoreTeam[i + 1] in redTeam:
-                highScoreBlue += 0.5
+    # highScoreTeam = []
+    # for i in range(4):
+    #     highScoreTeam.append(redTeam[i])
+    #     highScoreTeam.append(blueTeam[i])
+    # highScoreTeam.sort(key=lambda x: x.sc, reverse=True)
+    #
+    # for i in range(7):
+    #     if highScoreTeam[i].sc > 2 * highScoreTeam[i + 1].sc:
+    #         if highScoreTeam[i] in redTeam and highScoreTeam[i + 1] in blueTeam:
+    #             highScoreRed += 0.5
+    #         if highScoreTeam[i] in blueTeam and highScoreTeam[i + 1] in redTeam:
+    #             highScoreBlue += 0.5
     redScore += highScoreRed
     blueScore += highScoreBlue
     result = [redTeam, blueTeam, redScore, blueScore, highScoreRed, highScoreBlue]

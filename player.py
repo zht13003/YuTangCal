@@ -5,6 +5,7 @@ class player:
     name = ''
     sc = 0
     acc = 0.0
+    highscoreFlag = True
 
     def __init__(self, T: int, rank: int, name: str, sc: int, acc: float):
         self.T = T
@@ -13,3 +14,4 @@ class player:
         self.sc = sc
         self.acc = acc
         self.score = 0.0
+        self.highscoreFlag = True
